@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="archivos/estilos.css">
+    
+    <title>Tienda virtual</title>
+</head>
+<body class="row" style="margin-right:calc(-.0 * var(--bs-gutter-x))">
+    <header class="col-sm-12">
+        <nav class="col-sm-12 padding row">
+            <div class="col-sm"><h1>VideoPoli</h1></div>
+            <div class="col-sm">
+                <input type="search" placeholder="Buscar por nombre..." class="form-control">
+            </div>
+            <div class="col-sm">
+                <button class="btn btn-light">Todos</button>
+            </div>
+            <div class="col-sm">
+                <i class="fa-solid fa-user-astronaut"></i>
+                Usuario Registrado
+            </div>
+        </nav>
+    </header>
+    <aside class="col-sm-3 padding">
+        <article class="">
+            <strong>Filtros</strong> <br>
+            <section id="filtros"></section>
+        </article>
+        <article class="padding">
+            <strong>Tipo</strong>
+            <section id="filtro_tipo"></section>
+            <button class="btn btn-secondary">Aplicar</button>
+        </article>
+        <article class="padding">
+            <strong>Valor</strong>
+            <section id="filtro_valor"></section>
+            <button class="btn btn-secondary">Aplicar</button>
+        </article>
+    </aside>
+    <section class="col-sm-9 padding row" id="panel_muestra"></section>
+    <footer class="col-sm-12 padding">
+        <h1>VideoPoli</h1>
+        Tienda de videojuevos <br>
+        <i class="fa-brands fa-facebook"></i> |
+        <i class="fa-brands fa-instagram-square"></i> | 
+        <i class="fa-brands fa-tiktok"></i> | 
+        <i class="fa-brands fa-twitch"></i> | 
+        <i class="fa-brands fa-twitter"></i>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="archivos/componentes/descripcion.js"></script>
+    <script src="archivos/scripts.js"></script>
+</body>
+</html>
