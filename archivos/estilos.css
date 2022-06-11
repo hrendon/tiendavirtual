@@ -3,20 +3,22 @@
     margin-top: 20px;
 }
 
-footer{
+.footer{
     background-color: #0f385a;
     color: white;
     text-align: center;
     font-weight: bold;
-    height: 300px;
+    height: 200px;
 }
-header{
+.header{
     background-image: url('control.png');
     background-size: cover;
-    height: 250px;
     font-weight: bold;
     color: white;
     padding: 20px;
+}
+label{
+    font-weight: bold;
 }
 body{
     margin: 0px;
