@@ -78,35 +78,35 @@
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
                     <div class="form-group" style="margin-top: 20px;">
                         <label for="">Correo</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="input_correo">
                     </div>
                     <div class="form-group">
                       <label for="">Clave</label>
-                      <input type="password" class="form-control">
+                      <input type="password" class="form-control" id="input_clave">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Ingresar</button> <br>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="ingresar_usuario()">Ingresar</button> <br>
                         <div class="col-md-12" id="clave_errada"></div>
                     </div>        
                 </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
                     <div class="form-group" style="margin-top: 20px;">
                         <label for="">Correo</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="input_correo_registrar">
                     </div>
                     <div class="form-group">
                         <label for="">Nick</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="input_nick_registrar">
                     </div>
                     <div class="form-group">
                       <label for="">Clave</label>
-                      <input type="password" class="form-control">
+                      <input type="password" class="form-control" id="input_clave_registrar">
                     </div>
                     <div class="modal-footer ">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Registrarse</button> <br>
-                        <div class="col-md-12" id="clave_errada"></div>
+                        <button type="button" class="btn btn-primary" onclick="registrar_usuario()">Registrarse</button> <br>
+                        <div class="col-md-12" id="mensaje_registrar"></div>
                     </div>        
                 </div>
             </div>
@@ -123,31 +123,39 @@
           <h5 class="modal-title" id="exampleModalLabel2">Nuevo videojuego</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <form class="modal-body" id="myform">
             <div class="form-group" style="margin-top: 20px;">
                 <label for="">Nombre</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" id="inputn_nombre">
             </div>
             <div class="form-group">
                 <label for="">Tipo</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" id="inputn_tipo">
             </div>
             <div class="form-group">
                 <label for="">Consola</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" id="inputn_consola">
+            </div>
+            <div class="form-group">
+                <label for="">Cantidad</label>
+                <input type="number" class="form-control" id="inputn_cantidad">
+            </div>
+            <div class="form-group">
+                <label for="">Valor</label>
+                <input type="number" class="form-control" id="inputn_valor">
             </div>
             <div class="form-group">
                 <label for="">Descripción</label>
-                <textarea class="form-control"></textarea>
+                <textarea class="form-control" id="inputn_descripcion"></textarea>
             </div>
             <div class="form-group">
-                <label for="">Imagen</label><br>
-                <input type="file">
+                <label for="">Imagen (debe tener el mismo nombre del juego)</label><br>
+                <input type="file" id="inputn_imagen" name="inputn_imagen">
             </div>
-        </div>
+        </form>
         <div class="modal-footer footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary">Crear</button> <br>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="crear_videojuego();">Crear</button> <br>
           <div class="col-md-12" id="clave_errada"></div>
         </div>        
       </div>

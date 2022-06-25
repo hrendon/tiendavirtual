@@ -15,7 +15,7 @@ function inicio() {
         } else {
             listado_de_videojuevos = data;
             data.forEach(element => {
-                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola)
+                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola, element.cantidad, element.id)
             });
             document.getElementById('panel_muestra').innerHTML = html;
             // cargar los filtros
@@ -60,7 +60,7 @@ function aplicar_filtro(){
     } else {
         listado_de_videojuevos.forEach(element => {
             // Filtro por tipo o consola
-            if(seleccion.includes(element.tipo) == true || seleccion.includes(element.consola) == true){
+            if(seleccion.includes(element.tipo) == true && seleccion.includes(element.consola) == true){
                 filtros_puestos.push(element.tipo);
                 html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola)
             }
@@ -108,7 +108,7 @@ function consultar_sesion(){
         body:info
     }).then(res=>res.json()).then(data=>{
         if(data.sesion == true){
-            let html = componente_opcion_usuario(data.usuario) + componente_opcion_carrito(data.carrito) + componente_opcion_add_videojuego();
+            let html = componente_opcion_usuario(data.usuario) + componente_opcion_add_videojuego() + componente_opcion_carrito(data.carrito);
             document.getElementById('opciones_ingreso').innerHTML = html;            
         } else {
             document.getElementById('opciones_ingreso').innerHTML = componente_opcion_inicio();
@@ -116,5 +116,123 @@ function consultar_sesion(){
     }).catch(error=>{
         document.getElementById('opciones_ingreso').innerHTML = componente_opcion_inicio();
     })
-}
+}   
 consultar_sesion();
+
+function registrar_usuario(){
+    document.getElementById('mensaje_registrar').innerText = "";
+
+    let correo = document.getElementById('input_correo_registrar').value;
+    let clave  = document.getElementById('input_clave_registrar').value;
+    let nick   = document.getElementById('input_nick_registrar').value;
+
+    if(correo == '' || clave == '' || nick == ''){
+        alert('Es necesario diligenciar los campos');
+    } else {
+        let info = new URLSearchParams();
+        info.append('tipo_peticion','registrar_usuario');
+        info.append('correo',correo);
+        info.append('clave',clave);
+        info.append('nick',nick);
+        fetch('controlador/controlador.php',{
+            method:'POST',
+            body:info
+        }).then(res=>res.json()).then(data=>{
+            alert('registro ingresado, pase a la opción "ingresar" y diligencie los datos.');
+            document.getElementById('input_correo_registrar').value = '';
+            document.getElementById('input_clave_registrar').value  = '';
+            document.getElementById('input_nick_registrar').value   = '';
+        }).catch(error=>{
+            document.getElementById('mensaje_registrar').innerText = "error, intenta recargar la pagina e intentar nuevamente.";
+        })
+    }
+}
+
+function ingresar_usuario(){
+    let correo = document.getElementById('input_correo').value;
+    let clave  = document.getElementById('input_clave').value;   
+    if(correo == '' || clave == ''){
+        alert('Es necesario diligenciar los campos');
+    } else {
+        let info = new URLSearchParams();
+        info.append('tipo_peticion','ingresar_usuario');
+        info.append('correo',correo);
+        info.append('clave',clave);
+        fetch('controlador/controlador.php',{
+            method:'POST',
+            body:info
+        }).then(res=>res.json()).then(data=>{
+            if(data == 'no hay logueo'){
+                alert('Datos incorrectos.');
+                document.getElementById('clave_errada').innerText = "Datos incorrectos.";
+            } else {
+                document.getElementById('input_correo').value = '';
+                document.getElementById('input_clave').value  = '';
+                consultar_sesion();
+            }
+        }).catch(error=>{
+            alert('Datos incorrectos, error.');
+            document.getElementById('clave_errada').innerText = "Datos incorrectos, error.";
+        })
+    }
+}
+
+function salir(){
+    let info = new URLSearchParams();
+    info.append('tipo_peticion','cerrar_sesion');
+    fetch('controlador/controlador.php',{
+        method:'POST',
+        body:info
+    }).then(res=>res.json()).then(data=>{
+        consultar_sesion();
+    }).catch(error=>{
+        consultar_sesion();
+    })
+}
+
+function crear_videojuego() {
+    let nombre      = document.getElementById('inputn_nombre').value;
+    let tipo        = document.getElementById('inputn_tipo').value;
+    let consola     = document.getElementById('inputn_consola').value;
+    let cantidad    = document.getElementById('inputn_cantidad').value;
+    let valor       = document.getElementById('inputn_valor').value;
+    let descripcion = document.getElementById('inputn_descripcion').value;
+    let imagen      = document.querySelector('input[type="file"]')
+
+    let info = new FormData();
+    info.append('tipo_peticion','crear_videojuego');
+    info.append('nombre',nombre);
+    info.append('tipo',tipo);
+    info.append('consola',consola);
+    info.append('cantidad',cantidad);
+    info.append('descripcion',descripcion);
+    info.append('valor',valor);
+    info.append('imagen', imagen.files[0]);
+
+    fetch('controlador/controlador.php',{
+        method:'POST',
+        body:info
+    }).then(res=>res.json()).then(data=>{
+        alert('Importe realizado');
+        document.getElementById('myform').reset();
+        inicio();
+    }).catch(error=>{
+        alert('Error, videojuego no creado.');
+    })   
+}
+
+function adicionar_carrito(id){
+    let info = new URLSearchParams();
+    info.append('tipo_peticion','adicionar_carrito');
+    info.append('id', id);
+    fetch('controlador/controlador.php',{
+        method:'POST',
+        body:info
+    }).then(res=>res.json()).then(data=>{
+        consultar_sesion();
+        alert('Agregado al carrito');
+    }).catch(error=>{
+        alert('error: ' + error);
+        console.error(error);
+    })
+}

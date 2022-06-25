@@ -1,4 +1,14 @@
-function componente_descripcion(nombre, imagen, descripcion, tipo, valor, consola) {
+function componente_descripcion(nombre, imagen, descripcion, tipo, valor, consola, cantidad, id){
+    let html = '';
+    if(cantidad > 0){
+        html = `
+            <a href="#" class="btn btn-primary" onclick="adicionar_carrito(${id})">Comprar</a>
+        `
+    } else {
+        html = `
+            <a href="#" class="btn btn-secondary">Agotado</a>
+        `
+    }
     return `
     <div class="col-md-3 col-sm-4 col-xs-12">
         <div class="card col-sm-12" style="margin:5px">
@@ -8,7 +18,9 @@ function componente_descripcion(nombre, imagen, descripcion, tipo, valor, consol
                 <p class="card-text">${descripcion}</p>
                 <p class="card-text"><strong>Tipo:</strong> ${tipo}</p>
                 <p class="card-text"><strong>Consola:</strong> ${consola}</p>
-                <a href="#" class="btn btn-primary">Valor: ${new Intl.NumberFormat('en-IN', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(valor)}</a>
+                <p class="card-text"><strong>Cantidad:</strong> ${cantidad}</p>
+                <p class="card-text"><strong>Valor:</strong> ${new Intl.NumberFormat('en-IN', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(valor)}</p>
+                ${html}
             </div>
         </div>
     </div>
@@ -51,7 +63,7 @@ function componente_opcion_add_videojuego(){
 
 function componente_opcion_usuario(usuario){
     return `
-        <span style="font-weight: bold;cursor: pointer;">
+        <span style="font-weight: bold;cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="Click para salir..." onclick="salir()">
             <i class="fa-solid fa-user-astronaut"></i>
            ${usuario}
         </span>

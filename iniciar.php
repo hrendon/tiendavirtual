@@ -57,20 +57,38 @@ class inicio extends conexion
             tipo VARCHAR(30) NOT NULL,
             consola VARCHAR(30) NOT NULL,
             imagen VARCHAR(50) NOT NULL,
+            cantidad INT NOT NULL,
             valor INT NOT NULL,
             PRIMARY KEY (id)
         );";
         if(mysqli_query($this->con, $query)){
             echo "listo, tabla tb_videojuegos creada"; echo "<br>";
-            $query = "INSERT INTO tb_video_juegos (nombre,descripcion,tipo,consola,imagen,valor) VALUES 
-            ('Fornite', 'Videojuego de accion', 'Accion', 'PlayStation','Fornite.jpg', 10000),
-            ('Fifa', 'Videojuego de futbol', 'Futbol', 'XBOX','Fifa.jpg', 20000);";
+            $query = "INSERT INTO tb_video_juegos (nombre,descripcion,tipo,consola,imagen,valor, cantidad) VALUES 
+            ('Fornite', 'Videojuego de accion', 'Accion', 'PlayStation','Fornite.jpg', 10000, 0),
+            ('Fifa', 'Videojuego de futbol', 'Futbol', 'XBOX','Fifa.jpg', 20000, 0);";
             if(!mysqli_query($this->con, utf8_decode($query))){
                 echo "Alerta, novedad en la tabla tb_videojuegos"; echo "<br>";
                 echo mysqli_error($this->con); echo "<br>";    
             }
         } else {
             echo "Error, no se creo la tabla tb_videojuegos"; echo "<br>";
+            echo mysqli_error($this->con); echo "<br>";
+        }
+
+        $query = "CREATE TABLE IF NOT EXISTS tb_carrito (
+            id INT NOT NULL AUTO_INCREMENT,
+            tb_video_juego_id INT,
+            tb_usuario_id INT,
+            cantidad VARCHAR(200),
+            compra_confirmada INT,
+            PRIMARY KEY (id),
+            FOREIGN KEY (tb_video_juego_id) REFERENCES tb_video_juegos(id),
+            FOREIGN KEY (tb_usuario_id) REFERENCES tb_usuarios(id)
+        );";
+        if(mysqli_query($this->con, $query)){
+            echo "listo, tabla tb_carrito creada"; echo "<br>";
+        } else {
+            echo "Error, no se creo la tabla tb_carrito"; echo "<br>";
             echo mysqli_error($this->con); echo "<br>";
         }
         
