@@ -109,34 +109,34 @@ function aplicar_filtro(){
                     filtros_puestos.push(element.tipo);
                     mostrar = 'si';
                 } else {
-                    mostrar = 'no';
+                    mostrar = 'no_validado';
                 }
             }
-            if(seleccion_filtro_consola.length >0){
+            if(seleccion_filtro_consola.length > 0 && mostrar != 'no_validado'){
                 if(seleccion_filtro_consola.includes(element.consola) == true){
                     filtros_puestos.push(element.consola);
                     mostrar = 'si';
                 } else {
-                    mostrar = 'no';
+                    mostrar = 'no_validado';
                 }
             }
-            if(seleccion_filtro_desarrollador.length >0){
+            if(seleccion_filtro_desarrollador.length > 0 && mostrar != 'no_validado'){
                 if(seleccion_filtro_desarrollador.includes(element.desarrollador) == true){
                     filtros_puestos.push(element.desarrollador);
                     mostrar = 'si';
                 } else {
-                    mostrar = 'no';
+                    mostrar = 'no_validado';
                 }
             }
-            if(seleccion_filtro_publicado.length >0){
+            if(seleccion_filtro_publicado.length > 0 && mostrar != 'no_validado'){
                 if(seleccion_filtro_publicado.includes(element.publicado) == true){
                     filtros_puestos.push(element.publicado);
                     mostrar = 'si';
                 } else {
-                    mostrar = 'no';
+                    mostrar = 'no_validado';
                 }
             }
-            if(mostrar== 'si'){
+            if(mostrar == 'si'){
                 html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola, element.cantidad, element.id);
             }
         });
@@ -218,7 +218,7 @@ function registrar_usuario(){
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'registro ingresado, pase a la opción "ingresar" y diligencie los datos.',
+                title: 'Registro ingresado, pase a la opción "ingresar" y diligencie los datos.',
                 showConfirmButton: false
             })
             document.getElementById('input_correo_registrar').value = '';
