@@ -362,7 +362,7 @@ function adicionar_carrito(id){
 
 function descripcion_carta(id){
     listado_de_videojuegos.forEach(element => {
-        if(element.id == 1){
+        if(element.id == id){
             document.getElementById('imagen_carta').setAttribute('src', 'caratulas/' + element.imagen);
             document.getElementById('titulo_carta').innerText = element.nombre;
             document.getElementById('Descripcion_carta').innerText = element.descripcion;
