@@ -1,5 +1,5 @@
 console.log('carga archivo script');
-var listado_de_videojuevos = [];
+var listado_de_videojuegos = [];
 var filtros_puestos        = [];
 
 function inicio() {
@@ -11,19 +11,33 @@ function inicio() {
         body:info
     }).then(res=>res.json()).then(data=>{
         if(data.mensaje != undefined){
-            alert('Alerta, detalle: ' + data.mensaje);
+            // alert('Alerta, detalle: ' + data.mensaje);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: data.mensaje,
+                footer: 'Detalle de la alerta.'
+              })
         } else {
-            listado_de_videojuevos = data;
+            listado_de_videojuegos = data;
             data.forEach(element => {
                 html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola, element.cantidad, element.id)
             });
             document.getElementById('panel_muestra').innerHTML = html;
-            // cargar los filtros
+            // TODO: acá va cada tipo de filtro posible
             cargar_filtros('tipo', 'filtro_tipo');
             cargar_filtros('consola', 'filtro_consola');
+            cargar_filtros('desarrollador', 'filtro_desarrollador');
+            cargar_filtros('publicado', 'filtro_publicado');
         }
     }).catch(error=>{
-        alert('Ha ocurrido un error, detalle: ' + error);
+        // alert('Ha ocurrido un error, detalle: ' + error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            footer: 'Detalle del error ocurrido'
+          })
     })
 }
 inicio();
@@ -31,7 +45,7 @@ inicio();
 function cargar_filtros(filtros, section_filtro){
     let html = '';
     let tipo = [];
-    listado_de_videojuevos.forEach(element => {
+    listado_de_videojuegos.forEach(element => {
         eval('tipo.push(element.'+filtros+');');
         filtro_seleccionado();
     });
@@ -39,7 +53,7 @@ function cargar_filtros(filtros, section_filtro){
         return tipo.indexOf(item) === index;
     })
     result.forEach(element => {
-       html = html + componente_cargar_filtros(element);
+       html = html + componente_cargar_filtros(element, section_filtro);
     });
     document.getElementById(section_filtro).innerHTML = html;
 }
@@ -47,22 +61,83 @@ function cargar_filtros(filtros, section_filtro){
 function aplicar_filtro(){
     document.querySelector("input[type='search']").value = '';
     let html         = '';
-    let seleccion    = [];
     filtros_puestos  = [];
-    let check_filtro = document.querySelectorAll('.aplicar_filtro_tipo');
-    check_filtro.forEach(element => {
+
+    // TODO: acá va cada tipo de filtro posible
+    let seleccion_filtro_tipo    = [];
+    let seleccion_filtro_consola = [];
+    let seleccion_filtro_desarrollador = [];
+    let seleccion_filtro_publicado = [];
+    let check_filtro_tipo = document.querySelectorAll('.aplicar_filtro_tipo_filtro_tipo');
+    check_filtro_tipo.forEach(element => {
         if(element.checked == true){
-            seleccion.push(element.value);
+            seleccion_filtro_tipo.push(element.value);
         }
     });
-    if(seleccion.length == 0){
+    let check_filtro_consola = document.querySelectorAll('.aplicar_filtro_tipo_filtro_consola');
+    check_filtro_consola.forEach(element => {
+        if(element.checked == true){
+            seleccion_filtro_consola.push(element.value);
+        }
+    });
+    let check_filtro_desarrollador = document.querySelectorAll('.aplicar_filtro_tipo_filtro_desarrollador');
+    check_filtro_desarrollador.forEach(element => {
+        if(element.checked == true){
+            seleccion_filtro_desarrollador.push(element.value);
+        }
+    });
+    let check_filtro_publicado = document.querySelectorAll('.aplicar_filtro_tipo_filtro_publicado');
+    check_filtro_publicado.forEach(element => {
+        if(element.checked == true){
+            seleccion_filtro_publicado.push(element.value);
+        }
+    });
+    // TODO: acá va cada tipo de filtro posible
+    if(
+        seleccion_filtro_tipo.length    == 0 && 
+        seleccion_filtro_consola.length == 0 &&
+        seleccion_filtro_desarrollador.length == 0 &&
+        seleccion_filtro_publicado.length     == 0
+        ){
         inicio();
     } else {
-        listado_de_videojuevos.forEach(element => {
-            // Filtro por tipo o consola
-            if(seleccion.includes(element.tipo) == true && seleccion.includes(element.consola) == true){
-                filtros_puestos.push(element.tipo);
-                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola)
+        listado_de_videojuegos.forEach(element => {
+            let mostrar = 'no';
+            // TODO: acá va cada tipo de filtro posible
+            if(seleccion_filtro_tipo.length >0){
+                if(seleccion_filtro_tipo.includes(element.tipo) == true){
+                    filtros_puestos.push(element.tipo);
+                    mostrar = 'si';
+                } else {
+                    mostrar = 'no';
+                }
+            }
+            if(seleccion_filtro_consola.length >0){
+                if(seleccion_filtro_consola.includes(element.consola) == true){
+                    filtros_puestos.push(element.consola);
+                    mostrar = 'si';
+                } else {
+                    mostrar = 'no';
+                }
+            }
+            if(seleccion_filtro_desarrollador.length >0){
+                if(seleccion_filtro_desarrollador.includes(element.desarrollador) == true){
+                    filtros_puestos.push(element.desarrollador);
+                    mostrar = 'si';
+                } else {
+                    mostrar = 'no';
+                }
+            }
+            if(seleccion_filtro_publicado.length >0){
+                if(seleccion_filtro_publicado.includes(element.publicado) == true){
+                    filtros_puestos.push(element.publicado);
+                    mostrar = 'si';
+                } else {
+                    mostrar = 'no';
+                }
+            }
+            if(mostrar== 'si'){
+                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola, element.cantidad, element.id);
             }
         });
         filtro_seleccionado();
@@ -89,9 +164,9 @@ function aplicar_filtro_nombre(){
     if(nombre == ''){
         inicio();
     } else {
-        listado_de_videojuevos.forEach(element => {
+        listado_de_videojuegos.forEach(element => {
             if(element.nombre.toLowerCase().includes(nombre.toLowerCase())){
-                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola)
+                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola, element.cantidad, element.id)
             }
         });
         filtro_seleccionado();
@@ -127,7 +202,8 @@ function registrar_usuario(){
     let nick   = document.getElementById('input_nick_registrar').value;
 
     if(correo == '' || clave == '' || nick == ''){
-        alert('Es necesario diligenciar los campos');
+        // alert('Es necesario diligenciar los campos');
+        Swal.fire('Es necesario diligenciar los campos')
     } else {
         let info = new URLSearchParams();
         info.append('tipo_peticion','registrar_usuario');
@@ -138,7 +214,13 @@ function registrar_usuario(){
             method:'POST',
             body:info
         }).then(res=>res.json()).then(data=>{
-            alert('registro ingresado, pase a la opción "ingresar" y diligencie los datos.');
+            // alert('registro ingresado, pase a la opción "ingresar" y diligencie los datos.');
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'registro ingresado, pase a la opción "ingresar" y diligencie los datos.',
+                showConfirmButton: false
+            })
             document.getElementById('input_correo_registrar').value = '';
             document.getElementById('input_clave_registrar').value  = '';
             document.getElementById('input_nick_registrar').value   = '';
@@ -152,7 +234,8 @@ function ingresar_usuario(){
     let correo = document.getElementById('input_correo').value;
     let clave  = document.getElementById('input_clave').value;   
     if(correo == '' || clave == ''){
-        alert('Es necesario diligenciar los campos');
+        // alert('Es necesario diligenciar los campos');
+        Swal.fire('Es necesario diligenciar los campos')
     } else {
         let info = new URLSearchParams();
         info.append('tipo_peticion','ingresar_usuario');
@@ -163,7 +246,13 @@ function ingresar_usuario(){
             body:info
         }).then(res=>res.json()).then(data=>{
             if(data == 'no hay logueo'){
-                alert('Datos incorrectos.');
+                // alert('Datos incorrectos.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Datos incorrectos!',
+                    footer: 'Detalle de la alerta'
+                })
                 document.getElementById('clave_errada').innerText = "Datos incorrectos.";
             } else {
                 document.getElementById('input_correo').value = '';
@@ -171,7 +260,13 @@ function ingresar_usuario(){
                 consultar_sesion();
             }
         }).catch(error=>{
-            alert('Datos incorrectos, error.');
+            // alert('Datos incorrectos, error.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Datos incorrectos! o ocurrio un error.',
+                footer: 'Detalle de la alerta'
+            })
             document.getElementById('clave_errada').innerText = "Datos incorrectos, error.";
         })
     }
@@ -213,11 +308,23 @@ function crear_videojuego() {
         method:'POST',
         body:info
     }).then(res=>res.json()).then(data=>{
-        alert('Importe realizado');
+        // alert('Importe realizado');
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Importe realizado.',
+            showConfirmButton: false
+        })
         document.getElementById('myform').reset();
         inicio();
     }).catch(error=>{
-        alert('Error, videojuego no creado.');
+        // alert('Error, videojuego no creado.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Error, videojuego no creado.',
+            footer: 'Detalle del error.'
+        })
     })   
 }
 
@@ -229,10 +336,59 @@ function adicionar_carrito(id){
         method:'POST',
         body:info
     }).then(res=>res.json()).then(data=>{
-        consultar_sesion();
-        alert('Agregado al carrito');
+        if(data == 'Producto cargado al carrito'){
+            consultar_sesion();  
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: data,
+                showConfirmButton: false
+            })
+        } else {
+            Swal.fire(data);
+        }
+        // alert(data);
     }).catch(error=>{
-        alert('error: ' + error);
+        // alert('error: ' + error);
         console.error(error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            footer: 'Detalle del error.'
+        })
     })
+}
+
+function descripcion_carta(id){
+    listado_de_videojuegos.forEach(element => {
+        if(element.id == 1){
+            document.getElementById('imagen_carta').setAttribute('src', 'caratulas/' + element.imagen);
+            document.getElementById('titulo_carta').innerText = element.nombre;
+            document.getElementById('Descripcion_carta').innerText = element.descripcion;
+            let html = `
+                <p>
+                    <strong>Tipo:</strong> <br>
+                    ${element.tipo}
+                </p>
+                <p>
+                    <strong>Consola:</strong> <br>
+                    ${element.consola}
+                </p>
+                <p>
+                    <strong>Desarrollador:</strong> <br>
+                    ${element.desarrollador}
+                </p>
+                <p>
+                    <strong>Publicado:</strong> <br>
+                    ${element.publicado}
+                </p>
+                <p>
+                    <strong>Fecha:</strong> <br>
+                    ${element.fecha}
+                </p>
+            `
+            document.getElementById('detalle_menor_carta').innerHTML = html;
+        }       
+    });
 }

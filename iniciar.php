@@ -33,14 +33,13 @@ class inicio extends conexion
             correo VARCHAR(70) NOT NULL UNIQUE,
             nick VARCHAR(20) NOT NULL,
             pass VARCHAR(255) NOT NULL,
-            carrito INT,
             PRIMARY KEY (id)
         );";
         if(mysqli_query($this->con, $query)){
             echo "listo, tabla tb_usuarios creada"; echo "<br>";    
             $pass = md5('admin');
-            $query = "INSERT INTO tb_usuarios (correo,nick,pass, carrito) VALUES 
-            ('admin@admin.com', 'admin', '$pass',0);";
+            $query = "INSERT INTO tb_usuarios (correo,nick,pass) VALUES 
+            ('admin@admin.com', 'admin', '$pass');";
             if(!mysqli_query($this->con, $query)){
                 echo "Alerta, novedad en la tabla tb_usuarios"; echo "<br>";
                 echo mysqli_error($this->con); echo "<br>";    
@@ -57,19 +56,22 @@ class inicio extends conexion
             tipo VARCHAR(30) NOT NULL,
             consola VARCHAR(30) NOT NULL,
             imagen VARCHAR(50) NOT NULL,
-            cantidad INT NOT NULL,
             valor INT NOT NULL,
+            cantidad INT NOT NULL,
+            desarrollador VARCHAR(100),
+            publicado VARCHAR(100),
+            fecha VARCHAR(100),
             PRIMARY KEY (id)
         );";
         if(mysqli_query($this->con, $query)){
             echo "listo, tabla tb_videojuegos creada"; echo "<br>";
-            $query = "INSERT INTO tb_video_juegos (nombre,descripcion,tipo,consola,imagen,valor, cantidad) VALUES 
-            ('Fornite', 'Videojuego de accion', 'Accion', 'PlayStation','Fornite.jpg', 10000, 0),
-            ('Fifa', 'Videojuego de futbol', 'Futbol', 'XBOX','Fifa.jpg', 20000, 0);";
-            if(!mysqli_query($this->con, utf8_decode($query))){
-                echo "Alerta, novedad en la tabla tb_videojuegos"; echo "<br>";
-                echo mysqli_error($this->con); echo "<br>";    
-            }
+            // $query = "INSERT INTO tb_video_juegos (nombre,descripcion,tipo,consola,imagen,valor, cantidad) VALUES 
+            // ('Fornite', 'Videojuego de accion', 'Accion', 'PlayStation','Fornite.jpg', 10000, 0),
+            // ('Fifa', 'Videojuego de futbol', 'Futbol', 'XBOX','Fifa.jpg', 20000, 0);";
+            // if(!mysqli_query($this->con, utf8_decode($query))){
+            //     echo "Alerta, novedad en la tabla tb_videojuegos"; echo "<br>";
+            //     echo mysqli_error($this->con); echo "<br>";    
+            // }
         } else {
             echo "Error, no se creo la tabla tb_videojuegos"; echo "<br>";
             echo mysqli_error($this->con); echo "<br>";

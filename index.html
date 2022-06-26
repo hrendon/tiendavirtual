@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="archivos/estilos.css">
     
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Tienda virtual</title>
 </head>
 <body class="row" style="margin-right:calc(-.0 * var(--bs-gutter-x))">
@@ -38,6 +40,14 @@
         <article class="padding">
             <strong>Consola</strong>
             <section id="filtro_consola"></section>
+        </article>
+        <article class="padding">
+            <strong>Desarrollador</strong>
+            <section id="filtro_desarrollador"></section>
+        </article>
+        <article class="padding">
+            <strong>Publicado</strong>
+            <section id="filtro_publicado"></section>
         </article>
         <article class="padding">
             <button class="btn btn-success" onclick="aplicar_filtro()">Aplicar</button>
@@ -158,6 +168,36 @@
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="crear_videojuego();">Crear</button> <br>
           <div class="col-md-12" id="clave_errada"></div>
         </div>        
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal_descripcion" tabindex="-1" aria-labelledby="exampleModal_descripcionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header header">
+          <h5 class="modal-title" id="exampleModal_descripcionLabel">Descripción del Videojuego</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="..." class="img-fluid rounded-start" alt="imagen del videojuego" id="imagen_carta">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title" id="titulo_carta"></h5>
+                            <p class="card-text" id="Descripcion_carta"></p>
+                            <p class="card-text"><small class="text-muted" id="detalle_menor_carta"></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
       </div>
     </div>
   </div>

@@ -17,6 +17,12 @@
     color: white;
     padding: 20px;
 }
+.descripcion{
+    height: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    overflow-y: scroll;
+}
 label{
     font-weight: bold;
 }

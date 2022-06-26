@@ -26,7 +26,10 @@ class controlador extends conexion
             while($row = mysqli_fetch_array($respuesta)){
                 $data[] = $row;
             }
-            return $data;
+            foreach ($data as $key => $value) {
+                $data2[] = array_map("utf8_encode", $value);
+            }
+            return  $data2;
         }
     }
 
@@ -113,8 +116,12 @@ switch ($_POST['tipo_peticion']) {
         echo json_encode('registro enviado');
         break;
     case 'adicionar_carrito':
-        $controlador->adicionar_carrito($_POST);
-        echo json_encode('carrito cargado');
+        if(isset($_SESSION['session'])){
+            $controlador->adicionar_carrito($_POST);
+            echo json_encode('Producto cargado al carrito');
+        } else {
+            echo json_encode('Debe iniciar sesion primero.');
+        }
         break;
     case 'ingresar_usuario':
         $respuesta = $controlador->ingresar_usuario($_POST);
@@ -139,7 +146,7 @@ switch ($_POST['tipo_peticion']) {
             echo json_encode("sesion cerrada.");
         break;
     case 'crear_videojuego':
-        if($_SESSION['session']){
+        if(isset($_SESSION['session'])){
             $controlador->crear_videojuego($_POST, $_FILES["imagen"]["name"]);
             
             $target_dir = "../caratulas/";

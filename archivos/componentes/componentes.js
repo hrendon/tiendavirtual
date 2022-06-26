@@ -15,23 +15,32 @@ function componente_descripcion(nombre, imagen, descripcion, tipo, valor, consol
             <img src="caratulas/${imagen}" class="card-img-top" alt="imagen del videojuevo, por favor ponerla en carpeta caratulas con el mismo nombre del juego pero sin espacios" height="150px">
             <div class="card-body">
                 <h5 class="card-title">${nombre}</h5>
-                <p class="card-text">${descripcion}</p>
+                <p class="card-text descripcion">${descripcion}</p>
                 <p class="card-text"><strong>Tipo:</strong> ${tipo}</p>
                 <p class="card-text"><strong>Consola:</strong> ${consola}</p>
                 <p class="card-text"><strong>Cantidad:</strong> ${cantidad}</p>
                 <p class="card-text"><strong>Valor:</strong> ${new Intl.NumberFormat('en-IN', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(valor)}</p>
-                ${html}
+                <p class="card-text">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal_descripcion" onclick="descripcion_carta('${id}')">
+                        Descripción
+                    </button>
+                </p>
+                <p class="card-text">
+                    ${html}
+                </p>
             </div>
         </div>
     </div>
     `
 }
 
-function componente_cargar_filtros(element){
+function componente_cargar_filtros(element, section_filtro){
+    let element_sin_id = element.split(' ');
+    element_sin_id     = element_sin_id.join('_');
     return `
     <div class="form-check">
-        <input class="form-check-input aplicar_filtro_tipo" type="checkbox" value="${element}" id="idChek_${element}">
-        <label class="form-check-label" for="idChek_${element}">
+        <input class="form-check-input aplicar_filtro_tipo_${section_filtro}" type="checkbox" value="${element}" id="idChek_${element_sin_id}">
+        <label class="form-check-label" for="idChek_${element_sin_id}">
             <span class="badge bg-dark">${element}</span>
         </label>
     </div>

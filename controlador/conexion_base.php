@@ -1,7 +1,7 @@
 <?php
 class conexion
 {
-    private $con     = ''; 
+    private $con      = ''; 
     private $hostname = "localhost";
     private $username = "root";
     private $password = "Nacional2022**";
