@@ -23,6 +23,11 @@
     overflow: hidden;
     overflow-y: scroll;
 }
+.titulo{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 label{
     font-weight: bold;
 }

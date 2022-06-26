@@ -14,12 +14,12 @@ function componente_descripcion(nombre, imagen, descripcion, tipo, valor, consol
         <div class="card col-sm-12" style="margin:5px">
             <img src="caratulas/${imagen}" class="card-img-top" alt="imagen del videojuevo, por favor ponerla en carpeta caratulas con el mismo nombre del juego pero sin espacios" height="150px">
             <div class="card-body">
-                <h5 class="card-title">${nombre}</h5>
+                <h5 class="card-title titulo">${nombre}</h5>
                 <p class="card-text descripcion">${descripcion}</p>
                 <p class="card-text"><strong>Tipo:</strong> ${tipo}</p>
                 <p class="card-text"><strong>Consola:</strong> ${consola}</p>
                 <p class="card-text"><strong>Cantidad:</strong> ${cantidad}</p>
-                <p class="card-text"><strong>Valor:</strong> ${new Intl.NumberFormat('en-IN', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(valor)}</p>
+                <p class="card-text"><strong>Valor:</strong> ${new Intl.NumberFormat('de-DE', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(valor)}</p>
                 <p class="card-text">
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal_descripcion" onclick="descripcion_carta('${id}')">
                         Descripción
@@ -57,7 +57,7 @@ function componente_filtro_seleccionado(element){
 
 function componente_opcion_carrito(cantidad){
     return `
-        | <span style="font-weight: bold;">
+        | <span style="font-weight: bold;cursor:pointer;" onclick="carrito_compras()">
             <i class="fa-solid fa-cart-shopping" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="Carrito compras."></i>
             ${cantidad}
         </span>
@@ -83,5 +83,44 @@ function componente_opcion_inicio(){
     return `
         <i class="fa-solid fa-user-astronaut"></i>
         <span id="usuario_logueado" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">Ingresar</span>
+    `
+}
+
+function componente_compra(){
+    return `    
+    <section class="row">
+        <div class="col-lg-9 padding" style="background-color:white">
+            <h3>Detalle de la compra</h3>
+            <table class="table table-hover">
+                <thead>
+                    <th style="text-align: center;">Producto</th>
+                    <th>Valor</th>
+                    <th>Opción</th>
+                </thead>
+                <tbody id="tbody_compra">
+                    <td><img src="" alt="imagen del producto"> Sin producto seleccionado</td>
+                    <td id="celda_valor" style="text-align: center;">$0</td>
+                    <td id="celda_valor" style="text-align: center;"></td>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-3 padding">
+            <table class="table">
+                <tr>
+                    <td id="div_valor">$0</td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-light" onclick="finalizar_compra('cancelar')">Cancelar compra</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-primary" onclick="finalizar_compra('comprar')">Confirmar compra</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>  
     `
 }

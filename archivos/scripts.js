@@ -392,3 +392,94 @@ function descripcion_carta(id){
         }       
     });
 }
+
+function carrito_compras(){
+    document.getElementById('panel_muestra').innerHTML = componente_compra();
+
+    let info = new URLSearchParams();
+    info.append('tipo_peticion','consultar_carrito');
+    fetch('controlador/controlador.php',{
+        method:'POST',
+        body:info
+    }).then(res=>res.json()).then(data=>{
+        if(data == 'Debe iniciar sesion primero.'){
+            Swal.fire(data);
+        } else {
+            if(data.length > 0){
+                let html       = '';
+                let valortotal = 0;
+                data.forEach(element => {
+                    html = html + `
+                    <tr>
+                        <td><img src="caratulas/${element.imagen}" alt="imagen del producto" width="20%"> ${element.nombre} | ${element.consola} | ${element.tipo}</td>
+                        <td id="celda_valor" style="text-align: center;">$${new Intl.NumberFormat('de-DE', {style: 'currency',currency: 'COP', minimumFractionDigits: 0}).format(element.valor)}</td>
+                        <td id="celda_valor" style="text-align: center;">
+                            <span style="cursor:pointer;color:red" onclick="eliminar_producto_compra(${element.id})"> Eliminar </span>
+                        </td>
+                    </tr>
+                    `
+                    valortotal = valortotal + parseInt(element.valor);
+                });
+                document.getElementById('tbody_compra').innerHTML = html;
+                document.getElementById('div_valor').innerHTML    = '<label>Valor a pagar</label> <br>' + new Intl.NumberFormat('de-DE', {style: 'currency',currency: 'COP', minimumFractionDigits: 0}).format(valortotal);
+            }
+        }
+    }).catch(error=>{
+        console.error('No hay productos en el carro');
+    })
+} 
+
+function eliminar_producto_compra(id){
+    let info = new URLSearchParams();
+    info.append('tipo_peticion','eliminar_producto_compra');
+    info.append('id', id);
+    fetch('controlador/controlador.php',{
+        method:'POST',
+        body:info
+    }).then(res=>res.json()).then(data=>{
+        if(data == 'Producto eliminado del carrito'){
+            consultar_sesion();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: data,
+                showConfirmButton: false
+            })
+            carrito_compras();
+        } else {
+            Swal.fire(data);
+        }
+        // alert(data);
+    }).catch(error=>{
+        // alert('error: ' + error);
+        console.error(error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            footer: 'Detalle del error.'
+        })
+    })   
+}
+
+function finalizar_compra(detalle){
+    let info = new URLSearchParams();
+    info.append('tipo_peticion','finalizar_compra');
+    info.append('detalle', detalle);
+    fetch('controlador/controlador.php',{
+        method:'POST',
+        body:info
+    }).then(res=>res.json()).then(data=>{
+        consultar_sesion();
+        Swal.fire(data);
+        inicio();
+    }).catch(error=>{
+        console.error(error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            footer: 'Detalle del error.'
+        })
+    })
+}

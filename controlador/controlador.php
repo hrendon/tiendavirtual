@@ -69,6 +69,22 @@ class controlador extends conexion
             return $data;
         }
     }
+
+    public function consultar_carrito(){
+        $id = $_SESSION['id_usuario'];
+        $query = "SELECT * FROM `tb_carrito`, `tb_video_juegos` WHERE tb_carrito.tb_video_juego_id = tb_video_juegos.id AND tb_carrito.compra_confirmada = 0 AND tb_usuario_id = $id";
+        $respuesta = mysqli_query($this->con, $query);
+        if($respuesta){
+            $data = array();
+            while($row = mysqli_fetch_array($respuesta)){
+                $data[] = $row;
+            }
+            foreach ($data as $key => $value) {
+                $data2[] = array_map("utf8_encode", $value);
+            }
+            return  $data2;
+        }
+    }
     
     public function crear_videojuego($POST, $imagen){
         $nombre      = $POST['nombre'];
@@ -89,6 +105,31 @@ class controlador extends conexion
         $query = "INSERT INTO `tb_carrito` (tb_video_juego_id, tb_usuario_id, cantidad, compra_confirmada) VALUES ('$id', '$id_usuario', 1, 0);";
         mysqli_query($this->con, $query);
     }
+
+    public function eliminar_producto_compra($POST){
+        $id = $POST['id'];
+        $id_usuario = $_SESSION['id_usuario'];
+
+        $query = "DELETE FROM `tb_carrito` WHERE tb_video_juego_id = $id AND tb_usuario_id = $id_usuario AND compra_confirmada = 0;";
+        mysqli_query($this->con, $query);
+    }
+
+    public function finalizar_compra($POST){
+        $detalle    = $POST['detalle'];
+        $id_usuario = $_SESSION['id_usuario'];
+
+        if($detalle == 'comprar'){
+            $query = "UPDATE `tb_video_juegos`
+            inner join `tb_carrito` on `tb_carrito`.tb_video_juego_id = `tb_video_juegos`.id AND `tb_carrito`.compra_confirmada = 0 AND tb_usuario_id = $id_usuario
+            set `tb_video_juegos`.cantidad = `tb_video_juegos`.cantidad - 1";
+            
+            mysqli_query($this->con, $query);    
+            $query = "UPDATE `tb_carrito` SET compra_confirmada = 1 WHERE tb_usuario_id = $id_usuario AND compra_confirmada = 0;";
+        } else {
+            $query = "DELETE FROM `tb_carrito` WHERE tb_usuario_id = $id_usuario AND compra_confirmada = 0;";
+        }
+        mysqli_query($this->con, $query);
+    }
 }
 
 $controlador = new controlador();
@@ -98,7 +139,14 @@ switch ($_POST['tipo_peticion']) {
         $respuesta = $controlador->todo_el_listado();
         echo json_encode($respuesta);
         break;
-
+    case 'consultar_carrito':
+        if(isset($_SESSION['session'])){
+            $respuesta = $controlador->consultar_carrito();
+            echo json_encode($respuesta);
+        } else {
+            echo json_encode('Debe iniciar sesion primero.');
+        }
+        break;
     case 'consulta_sesion':
         $respuesta = $controlador->consulta_sesion();
         if($respuesta[0]['conteo'] == null){
@@ -189,6 +237,26 @@ switch ($_POST['tipo_peticion']) {
             }
             echo json_encode('importe realizado');
         }     
+        break;
+    case 'eliminar_producto_compra':
+        if(isset($_SESSION['session'])){
+            $controlador->eliminar_producto_compra($_POST);
+            echo json_encode('Producto eliminado del carrito');
+        } else {
+            echo json_encode('Debe iniciar sesion primero.');
+        }
+        break;
+    case 'finalizar_compra':
+        if(isset($_SESSION['session'])){
+            $controlador->finalizar_compra($_POST);
+            if($_POST['detalle'] == 'comprar'){
+                echo json_encode('Compra finalizada.');
+            } else {
+                echo json_encode('Compra cancelada.');
+            }
+        } else {
+            echo json_encode('Debe iniciar sesion primero.');
+        }
         break;
 
     default:
