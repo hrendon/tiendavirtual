@@ -1,5 +1,5 @@
 console.log('carga archivo script');
-var listado_de_videojuegos = [];
+var listado_de_productos = [];
 var filtros_puestos        = [];
 
 function inicio() {
@@ -19,15 +19,15 @@ function inicio() {
                 footer: 'Detalle de la alerta.'
               })
         } else {
-            listado_de_videojuegos = data;
+            listado_de_productos = data;
             data.forEach(element => {
-                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola, element.cantidad, element.id)
+                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.promo, element.cantidad, element.id)
             });
             document.getElementById('panel_muestra').innerHTML = html;
             // TODO: acá va cada tipo de filtro posible
             cargar_filtros('tipo', 'filtro_tipo');
-            cargar_filtros('consola', 'filtro_consola');
-            cargar_filtros('desarrollador', 'filtro_desarrollador');
+            cargar_filtros('promo', 'filtro_promo');
+            cargar_filtros('empresa', 'filtro_empresa');
             cargar_filtros('publicado', 'filtro_publicado');
         }
     }).catch(error=>{
@@ -45,7 +45,7 @@ inicio();
 function cargar_filtros(filtros, section_filtro){
     let html = '';
     let tipo = [];
-    listado_de_videojuegos.forEach(element => {
+    listado_de_productos.forEach(element => {
         eval('tipo.push(element.'+filtros+');');
         filtro_seleccionado();
     });
@@ -65,8 +65,8 @@ function aplicar_filtro(){
 
     // TODO: acá va cada tipo de filtro posible
     let seleccion_filtro_tipo    = [];
-    let seleccion_filtro_consola = [];
-    let seleccion_filtro_desarrollador = [];
+    let seleccion_filtro_promo = [];
+    let seleccion_filtro_empresa = [];
     let seleccion_filtro_publicado = [];
     let check_filtro_tipo = document.querySelectorAll('.aplicar_filtro_tipo_filtro_tipo');
     check_filtro_tipo.forEach(element => {
@@ -74,16 +74,16 @@ function aplicar_filtro(){
             seleccion_filtro_tipo.push(element.value);
         }
     });
-    let check_filtro_consola = document.querySelectorAll('.aplicar_filtro_tipo_filtro_consola');
-    check_filtro_consola.forEach(element => {
+    let check_filtro_promo = document.querySelectorAll('.aplicar_filtro_tipo_filtro_promo');
+    check_filtro_promo.forEach(element => {
         if(element.checked == true){
-            seleccion_filtro_consola.push(element.value);
+            seleccion_filtro_promo.push(element.value);
         }
     });
-    let check_filtro_desarrollador = document.querySelectorAll('.aplicar_filtro_tipo_filtro_desarrollador');
-    check_filtro_desarrollador.forEach(element => {
+    let check_filtro_empresa = document.querySelectorAll('.aplicar_filtro_tipo_filtro_empresa');
+    check_filtro_empresa.forEach(element => {
         if(element.checked == true){
-            seleccion_filtro_desarrollador.push(element.value);
+            seleccion_filtro_empresa.push(element.value);
         }
     });
     let check_filtro_publicado = document.querySelectorAll('.aplicar_filtro_tipo_filtro_publicado');
@@ -95,13 +95,13 @@ function aplicar_filtro(){
     // TODO: acá va cada tipo de filtro posible
     if(
         seleccion_filtro_tipo.length    == 0 && 
-        seleccion_filtro_consola.length == 0 &&
-        seleccion_filtro_desarrollador.length == 0 &&
+        seleccion_filtro_promo.length == 0 &&
+        seleccion_filtro_empresa.length == 0 &&
         seleccion_filtro_publicado.length     == 0
         ){
         inicio();
     } else {
-        listado_de_videojuegos.forEach(element => {
+        listado_de_productos.forEach(element => {
             let mostrar = 'no';
             // TODO: acá va cada tipo de filtro posible
             if(seleccion_filtro_tipo.length >0){
@@ -112,17 +112,17 @@ function aplicar_filtro(){
                     mostrar = 'no_validado';
                 }
             }
-            if(seleccion_filtro_consola.length > 0 && mostrar != 'no_validado'){
-                if(seleccion_filtro_consola.includes(element.consola) == true){
-                    filtros_puestos.push(element.consola);
+            if(seleccion_filtro_promo.length > 0 && mostrar != 'no_validado'){
+                if(seleccion_filtro_promo.includes(element.promo) == true){
+                    filtros_puestos.push(element.promo);
                     mostrar = 'si';
                 } else {
                     mostrar = 'no_validado';
                 }
             }
-            if(seleccion_filtro_desarrollador.length > 0 && mostrar != 'no_validado'){
-                if(seleccion_filtro_desarrollador.includes(element.desarrollador) == true){
-                    filtros_puestos.push(element.desarrollador);
+            if(seleccion_filtro_empresa.length > 0 && mostrar != 'no_validado'){
+                if(seleccion_filtro_empresa.includes(element.empresa) == true){
+                    filtros_puestos.push(element.empresa);
                     mostrar = 'si';
                 } else {
                     mostrar = 'no_validado';
@@ -137,7 +137,7 @@ function aplicar_filtro(){
                 }
             }
             if(mostrar == 'si'){
-                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola, element.cantidad, element.id);
+                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.promo, element.cantidad, element.id);
             }
         });
         filtro_seleccionado();
@@ -164,9 +164,9 @@ function aplicar_filtro_nombre(){
     if(nombre == ''){
         inicio();
     } else {
-        listado_de_videojuegos.forEach(element => {
+        listado_de_productos.forEach(element => {
             if(element.nombre.toLowerCase().includes(nombre.toLowerCase())){
-                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.consola, element.cantidad, element.id)
+                html = html + componente_descripcion(element.nombre, element.imagen, element.descripcion, element.tipo, element.valor, element.promo, element.cantidad, element.id)
             }
         });
         filtro_seleccionado();
@@ -183,10 +183,12 @@ function consultar_sesion(){
         body:info
     }).then(res=>res.json()).then(data=>{
         if(data.sesion == true){
-            let html = componente_opcion_usuario(data.usuario) + componente_opcion_add_videojuego() + componente_opcion_carrito(data.carrito);
-            document.getElementById('opciones_ingreso').innerHTML = html;            
+            let html = componente_opcion_usuario(data.usuario) + componente_opcion_add_producto() + componente_opcion_carrito(data.carrito);
+            console.log('ahora si');
+            document.getElementById('opciones_ingreso').innerHTML = html;
         } else {
             document.getElementById('opciones_ingreso').innerHTML = componente_opcion_inicio();
+            console.log('aca');
         }
     }).catch(error=>{
         document.getElementById('opciones_ingreso').innerHTML = componente_opcion_inicio();
@@ -285,20 +287,20 @@ function salir(){
     })
 }
 
-function crear_videojuego() {
+function crear_producto() {
     let nombre      = document.getElementById('inputn_nombre').value;
     let tipo        = document.getElementById('inputn_tipo').value;
-    let consola     = document.getElementById('inputn_consola').value;
+    let promo     = document.getElementById('inputn_promo').value;
     let cantidad    = document.getElementById('inputn_cantidad').value;
     let valor       = document.getElementById('inputn_valor').value;
     let descripcion = document.getElementById('inputn_descripcion').value;
     let imagen      = document.querySelector('input[type="file"]')
 
     let info = new FormData();
-    info.append('tipo_peticion','crear_videojuego');
+    info.append('tipo_peticion','crear_producto');
     info.append('nombre',nombre);
     info.append('tipo',tipo);
-    info.append('consola',consola);
+    info.append('promo',promo);
     info.append('cantidad',cantidad);
     info.append('descripcion',descripcion);
     info.append('valor',valor);
@@ -318,11 +320,11 @@ function crear_videojuego() {
         document.getElementById('myform').reset();
         inicio();
     }).catch(error=>{
-        // alert('Error, videojuego no creado.');
+        // alert('Error, producto no creado.');
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Error, videojuego no creado.',
+            text: 'Error, producto no creado.',
             footer: 'Detalle del error.'
         })
     })   
@@ -361,7 +363,7 @@ function adicionar_carrito(id){
 }
 
 function descripcion_carta(id){
-    listado_de_videojuegos.forEach(element => {
+    listado_de_productos.forEach(element => {
         if(element.id == id){
             document.getElementById('imagen_carta').setAttribute('src', 'caratulas/' + element.imagen);
             document.getElementById('titulo_carta').innerText = element.nombre;
@@ -372,12 +374,12 @@ function descripcion_carta(id){
                     ${element.tipo}
                 </p>
                 <p>
-                    <strong>Consola:</strong> <br>
-                    ${element.consola}
+                    <strong>promo:</strong> <br>
+                    ${element.promo}
                 </p>
                 <p>
-                    <strong>Desarrollador:</strong> <br>
-                    ${element.desarrollador}
+                    <strong>empresa:</strong> <br>
+                    ${element.empresa}
                 </p>
                 <p>
                     <strong>Publicado:</strong> <br>
@@ -411,7 +413,7 @@ function carrito_compras(){
                 data.forEach(element => {
                     html = html + `
                     <tr>
-                        <td><img src="caratulas/${element.imagen}" alt="imagen del producto" width="20%"> ${element.nombre} | ${element.consola} | ${element.tipo}</td>
+                        <td><img src="caratulas/${element.imagen}" alt="imagen del producto" width="20%"> ${element.nombre} | ${element.promo} | ${element.tipo}</td>
                         <td id="celda_valor" style="text-align: center;">$${new Intl.NumberFormat('de-DE', {style: 'currency',currency: 'COP', minimumFractionDigits: 0}).format(element.valor)}</td>
                         <td id="celda_valor" style="text-align: center;">
                             <span style="cursor:pointer;color:red" onclick="eliminar_producto_compra(${element.id})"> Eliminar </span>

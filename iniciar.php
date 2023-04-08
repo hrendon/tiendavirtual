@@ -49,30 +49,30 @@ class inicio extends conexion
             echo mysqli_error($this->con); echo "<br>";
         }
 
-        $query = "CREATE TABLE IF NOT EXISTS tb_video_juegos (
+        $query = "CREATE TABLE IF NOT EXISTS tb_productos (
             id INT NOT NULL AUTO_INCREMENT,
             nombre VARCHAR(100) NOT NULL UNIQUE,
-            descripcion VARCHAR(200),
+            descripcion TEXT,
             tipo VARCHAR(30) NOT NULL,
-            consola VARCHAR(30) NOT NULL,
+            promo VARCHAR(30) NOT NULL,
             imagen VARCHAR(50) NOT NULL,
             valor INT NOT NULL,
             cantidad INT NOT NULL,
-            desarrollador VARCHAR(100),
+            empresa VARCHAR(100),
             publicado VARCHAR(100),
             fecha VARCHAR(100),
             PRIMARY KEY (id)
         );";
         if(mysqli_query($this->con, $query)){
-            echo "listo, tabla tb_videojuegos creada"; echo "<br>";
+            echo "listo, tabla tb_productos creada"; echo "<br>";
         } else {
-            echo "Error, no se creo la tabla tb_videojuegos"; echo "<br>";
+            echo "Error, no se creo la tabla tb_productos"; echo "<br>";
             echo mysqli_error($this->con); echo "<br>";
         }
 
         $query = "CREATE TABLE IF NOT EXISTS tb_carrito (
             id INT NOT NULL AUTO_INCREMENT,
-            tb_video_juego_id INT,
+            tb_producto_id INT,
             tb_usuario_id INT,
             cantidad VARCHAR(200),
             compra_confirmada INT,

@@ -1,5 +1,5 @@
-# VideoPoli
-> Desarrollo de la plataforma tiendavirtual.
+# Mass Market
+> Desarrollo de la plataforma Mass Market, desarrollo realizado con el fin de dar cumplimiento a la entrega del módulo FrontEnd.
 
 Plataforma en PHP.
 Motor de base de datos requerido: Mysql.

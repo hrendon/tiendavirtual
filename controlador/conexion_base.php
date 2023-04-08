@@ -3,8 +3,8 @@ class conexion
 {
     private $con      = ''; 
     private $hostname = "localhost";
-    private $username = "root";
-    private $password = "Nacional2022**";
+    private $username = "hrendon";
+    private $password = "asdf123.";
     public  $dbname   = "tiendavirtual";
 
     public function conectar($base=""){

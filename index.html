@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,17 +12,19 @@
     
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <title>Tienda virtual</title>
+    <title>Mass Market</title>
 </head>
 <body class="row" style="margin-right:calc(-.0 * var(--bs-gutter-x))">
     <header class="header col-md-12">
         <nav class="col-md-12 padding row">
-            <div class="col-md-4"><h1>VideoPoli</h1></div>
+            <div class="col-md-4">
+                <img src="archivos/logo.png" alt="Logo empresa" style="width: 200px;">
+            </div>
             <div class="col-md-3">
                 <input type="search" placeholder="Buscar por nombre..." class="form-control">
             </div>
             <div class="col-md-2">
-                <button class="btn btn-light" onclick="aplicar_filtro_nombre()" style="margin-top: 10px;">Buscar</button>
+                <button class="btn btn-light" onclick="aplicar_filtro_nombre()">Buscar</button>
             </div>
             <div class="col-md-3">
                 <span id="opciones_ingreso"></span>
@@ -39,12 +41,12 @@
             <section id="filtro_tipo"></section>
         </article>
         <article class="padding">
-            <strong>Consola</strong>
-            <section id="filtro_consola"></section>
+            <strong>Promo</strong>
+            <section id="filtro_promo"></section>
         </article>
         <article class="padding">
-            <strong>Desarrollador</strong>
-            <section id="filtro_desarrollador"></section>
+            <strong>Empresa</strong>
+            <section id="filtro_empresa"></section>
         </article>
         <article class="padding">
             <strong>Publicado</strong>
@@ -56,8 +58,8 @@
     </aside>
     <section class="col-md-9 padding row" id="panel_muestra" style="background-color: #eee;border-radius:10px;"></section>
     <footer class="footer col-md-12 padding">
-        <h1>VideoPoli</h1>
-        Tienda de videojuegos <br>
+        <img src="archivos/logo.png" alt="Logo empresa" style="width: 200px;"> <br><br>
+        Supermercado <br>
         <i class="fa-brands fa-facebook"></i> |
         <i class="fa-brands fa-instagram-square"></i> | 
         <i class="fa-brands fa-tiktok"></i> | 
@@ -75,7 +77,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header header">
-          <h5 class="modal-title" id="exampleModalLabel">VideoPoli</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Mass Market</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -131,7 +133,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header header">
-          <h5 class="modal-title" id="exampleModalLabel2">Nuevo videojuego</h5>
+          <h5 class="modal-title" id="exampleModalLabel2">Nuevo Producto</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form class="modal-body" id="myform">
@@ -144,8 +146,8 @@
                 <input type="text" class="form-control" id="inputn_tipo">
             </div>
             <div class="form-group">
-                <label for="">Consola</label>
-                <input type="text" class="form-control" id="inputn_consola">
+                <label for="">Promo</label>
+                <input type="text" class="form-control" id="inputn_Promo">
             </div>
             <div class="form-group">
                 <label for="">Cantidad</label>
@@ -178,7 +180,7 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header header">
-          <h5 class="modal-title" id="exampleModal_descripcionLabel">Descripción del Videojuego</h5>
+          <h5 class="modal-title" id="exampleModal_descripcionLabel">Descripción del Producto</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -186,7 +188,7 @@
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="imagen del videojuego" id="imagen_carta">
+                        <img src="..." class="img-fluid rounded-start" alt="imagen del Producto" id="imagen_carta">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+// error_reporting(E_ALL);
+// ini_set('display_errors', '1');
 
 session_start();
 
@@ -19,7 +19,7 @@ class controlador extends conexion
     }
 
     public function todo_el_listado(){
-        $query = "SELECT * FROM `tb_video_juegos`;";
+        $query = "SELECT * FROM `tb_productos`;";
         $respuesta = mysqli_query($this->con, $query);
         if($respuesta){
             $data = array();
@@ -72,7 +72,7 @@ class controlador extends conexion
 
     public function consultar_carrito(){
         $id = $_SESSION['id_usuario'];
-        $query = "SELECT * FROM `tb_carrito`, `tb_video_juegos` WHERE tb_carrito.tb_video_juego_id = tb_video_juegos.id AND tb_carrito.compra_confirmada = 0 AND tb_usuario_id = $id";
+        $query = "SELECT * FROM `tb_carrito`, `tb_productos` WHERE tb_carrito.tb_producto_id = tb_productos.id AND tb_carrito.compra_confirmada = 0 AND tb_usuario_id = $id";
         $respuesta = mysqli_query($this->con, $query);
         if($respuesta){
             $data = array();
@@ -86,15 +86,15 @@ class controlador extends conexion
         }
     }
     
-    public function crear_videojuego($POST, $imagen){
+    public function crear_producto($POST, $imagen){
         $nombre      = $POST['nombre'];
         $tipo        = $POST['tipo'];
-        $consola     = $POST['consola'];
+        $promo     = $POST['promo'];
         $cantidad    = $POST['cantidad'];
         $descripcion = $POST['descripcion'];
         $valor       = $POST['valor'];
 
-        $query = "INSERT INTO `tb_video_juegos` (nombre, descripcion, tipo, consola, imagen, valor, cantidad) VALUES ('$nombre', '$descripcion', '$tipo', '$consola', '$imagen', '$valor', '$cantidad');";
+        $query = "INSERT INTO `tb_productos` (nombre, descripcion, tipo, promo, imagen, valor, cantidad) VALUES ('$nombre', '$descripcion', '$tipo', '$promo', '$imagen', '$valor', '$cantidad');";
         mysqli_query($this->con, $query);
     }
 
@@ -102,7 +102,7 @@ class controlador extends conexion
         $id = $POST['id'];
         $id_usuario = $_SESSION['id_usuario'];
 
-        $query = "INSERT INTO `tb_carrito` (tb_video_juego_id, tb_usuario_id, cantidad, compra_confirmada) VALUES ('$id', '$id_usuario', 1, 0);";
+        $query = "INSERT INTO `tb_carrito` (tb_producto_id, tb_usuario_id, cantidad, compra_confirmada) VALUES ('$id', '$id_usuario', 1, 0);";
         mysqli_query($this->con, $query);
     }
 
@@ -110,7 +110,7 @@ class controlador extends conexion
         $id = $POST['id'];
         $id_usuario = $_SESSION['id_usuario'];
 
-        $query = "DELETE FROM `tb_carrito` WHERE tb_video_juego_id = $id AND tb_usuario_id = $id_usuario AND compra_confirmada = 0;";
+        $query = "DELETE FROM `tb_carrito` WHERE tb_producto_id = $id AND tb_usuario_id = $id_usuario AND compra_confirmada = 0;";
         mysqli_query($this->con, $query);
     }
 
@@ -119,9 +119,9 @@ class controlador extends conexion
         $id_usuario = $_SESSION['id_usuario'];
 
         if($detalle == 'comprar'){
-            $query = "UPDATE `tb_video_juegos`
-            inner join `tb_carrito` on `tb_carrito`.tb_video_juego_id = `tb_video_juegos`.id AND `tb_carrito`.compra_confirmada = 0 AND tb_usuario_id = $id_usuario
-            set `tb_video_juegos`.cantidad = `tb_video_juegos`.cantidad - 1";
+            $query = "UPDATE `tb_productos`
+            inner join `tb_carrito` on `tb_carrito`.tb_producto_id = `tb_productos`.id AND `tb_carrito`.compra_confirmada = 0 AND tb_usuario_id = $id_usuario
+            set `tb_productos`.cantidad = `tb_productos`.cantidad - 1";
             
             mysqli_query($this->con, $query);    
             $query = "UPDATE `tb_carrito` SET compra_confirmada = 1 WHERE tb_usuario_id = $id_usuario AND compra_confirmada = 0;";
@@ -193,9 +193,9 @@ switch ($_POST['tipo_peticion']) {
             unset($_SESSION['id_usuario']);
             echo json_encode("sesion cerrada.");
         break;
-    case 'crear_videojuego':
+    case 'crear_producto':
         if(isset($_SESSION['session'])){
-            $controlador->crear_videojuego($_POST, $_FILES["imagen"]["name"]);
+            $controlador->crear_producto($_POST, $_FILES["imagen"]["name"]);
             
             $target_dir = "../caratulas/";
             $target_file = $target_dir . basename($_FILES["imagen"]["name"]);

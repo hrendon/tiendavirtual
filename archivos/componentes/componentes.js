@@ -1,4 +1,4 @@
-function componente_descripcion(nombre, imagen, descripcion, tipo, valor, consola, cantidad, id){
+function componente_descripcion(nombre, imagen, descripcion, tipo, valor, promo, cantidad, id){
     let html = '';
     if(cantidad > 0){
         html = `
@@ -12,12 +12,12 @@ function componente_descripcion(nombre, imagen, descripcion, tipo, valor, consol
     return `
     <div class="col-md-3 col-sm-4 col-xs-12">
         <div class="card col-sm-12" style="margin:5px">
-            <img src="caratulas/${imagen}" class="card-img-top" alt="imagen del videojuevo, por favor ponerla en carpeta caratulas con el mismo nombre del juego pero sin espacios" height="150px">
+            <img src="caratulas/${imagen}" class="card-img-top" alt="imagen del producto, por favor ponerla en carpeta caratulas con el mismo nombre del juego pero sin espacios" height="150px">
             <div class="card-body">
                 <h5 class="card-title titulo">${nombre}</h5>
                 <p class="card-text descripcion">${descripcion}</p>
                 <p class="card-text"><strong>Tipo:</strong> ${tipo}</p>
-                <p class="card-text"><strong>Consola:</strong> ${consola}</p>
+                <p class="card-text"><strong>Promo:</strong> ${promo}</p>
                 <p class="card-text"><strong>Cantidad:</strong> ${cantidad}</p>
                 <p class="card-text"><strong>Valor:</strong> ${new Intl.NumberFormat('de-DE', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(valor)}</p>
                 <p class="card-text">
@@ -64,9 +64,9 @@ function componente_opcion_carrito(cantidad){
     `
 }
 
-function componente_opcion_add_videojuego(){
+function componente_opcion_add_producto(){
     return `
-        | <span data-bs-toggle="modal" data-bs-target="#exampleModal2" style="font-weight: bold;cursor: pointer;">Videojuegos</span>
+        | <span data-bs-toggle="modal" data-bs-target="#exampleModal2" style="font-weight: bold;cursor: pointer;">Productos</span>
     `
 }
 
